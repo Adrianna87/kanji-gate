@@ -11,7 +11,7 @@ function Carousel() {
 
   useEffect(() => {
     async function loadAllKanji() {
-      const res = await axios.get(`https://kanjialive-api.p.rapidapi.com/api/public/kanji/all/`);
+      const res = await axios.get(`http://localhost:3001/kanji`);
       setKanji(res.data);
       setAllKanji(res.data)
     };

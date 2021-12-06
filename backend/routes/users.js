@@ -8,7 +8,7 @@ const express = require("express");
 const { ensureLoggedIn, ensureCorrectUser } = require("../middleware/auth");
 const User = require("../models/user");
 
-const router = express.Router();
+const router = new express.Router();
 
 /** GET /[username] => { user }
  *

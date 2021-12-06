@@ -4,7 +4,7 @@ import axios from "axios";
 const Dictionary = () => {
   const [kanjiChar, setKanjiChar] = useState(null);
   const [term, setTerm] = useState("");
-
+  //Figure out how to get the dictionary working again
   async function getKanji() {
     try {
       const res = await axios.get(`https://kanjialive-api.p.rapidapi.com/api/public/search/${term}/`);

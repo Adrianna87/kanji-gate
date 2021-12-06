@@ -2,7 +2,7 @@
 
 const express = require("express");
 const cors = require("cors");
-
+const kanji = require('./routes/kanji');
 const { NotFoundError } = require("./expressError");
 const morgan = require("morgan");
 
@@ -11,6 +11,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(morgan("tiny"));
+app.use('/kanji', kanji);
 
 
 /** Handle 404 errors -- this matches everything */

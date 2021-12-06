@@ -12,7 +12,7 @@ function Quiz() {
 
   useEffect(() => {
     async function loadGrade() {
-      const res = await axios.get(`https://kanjialive-api.p.rapidapi.com/api/public/kanji/all/`);
+      const res = await axios.get(`http://localhost:3001/kanji`);
       setGrade(res.data);
     };
     loadGrade();

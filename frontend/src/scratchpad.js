@@ -12,7 +12,7 @@ function Scratch() {
 
   useEffect(() => {
     async function loadGrade() {
-      const res = await axios.get(`https://kanjialive-api.p.rapidapi.com/api/public/kanji/all/`);
+      const res = await axios.get(`http://localhost:3001/kanji`);
       setGrade(res.data);
     };
     loadGrade();
@@ -96,7 +96,6 @@ function Scratch() {
                 <span>Question {currentQuestion + 1}</span>/{quizApi.length}
               </div>
               <div className='question-text'><KanjiCard
-                key={quizApi[currentQuestion].reference}
                 char={quizApi[currentQuestion].kanji} /></div>
             </div>
             <div className='answer-section'>
