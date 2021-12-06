@@ -35,44 +35,55 @@ function Carousel() {
     evt.preventDefault();
     setIsFlipped(!isFlipped);
   };
-
   // All kanji present on page load. Fix this later.
   return (
     <div className="Carousel">
-      <button onClick={() => { filterKanji(1) }}>Grade 1</button>
-      <button onClick={() => { filterKanji(2) }}>Grade 2</button>
-      <button onClick={() => { filterKanji(3) }}>Grade 3</button>
-      <button onClick={() => { filterKanji(4) }}>Grade 4</button>
-      <button onClick={() => { filterKanji(5) }}>Grade 5</button>
-      <button onClick={() => { filterKanji(6) }}>Grade 6</button>
-      <button onClick={() => { filterKanji(null) }}>JLPT 2</button>
+      {kanji.length === 0 || kanji.length === 1235 ?
+        <div>
+          <button onClick={() => { filterKanji(1) }}>Grade 1</button>
+          <button onClick={() => { filterKanji(2) }}>Grade 2</button>
+          <button onClick={() => { filterKanji(3) }}>Grade 3</button>
+          <button onClick={() => { filterKanji(4) }}>Grade 4</button>
+          <button onClick={() => { filterKanji(5) }}>Grade 5</button>
+          <button onClick={() => { filterKanji(6) }}>Grade 6</button>
+          <button onClick={() => { filterKanji(null) }}>JLPT 2</button>
+        </div> :
+        <div>
+          <div>
+            <button onClick={() => { filterKanji(1) }}>Grade 1</button>
+            <button onClick={() => { filterKanji(2) }}>Grade 2</button>
+            <button onClick={() => { filterKanji(3) }}>Grade 3</button>
+            <button onClick={() => { filterKanji(4) }}>Grade 4</button>
+            <button onClick={() => { filterKanji(5) }}>Grade 5</button>
+            <button onClick={() => { filterKanji(6) }}>Grade 6</button>
+            <button onClick={() => { filterKanji(null) }}>JLPT 2</button>
+          </div>
+          <button onClick={goBack}>Back</button>
 
-
-      <button onClick={goBack}>Back</button>
-
-      {kanji
-        .map((k, idx) => {
-          return (
-            <div className={idx === cardIdx ? 'card-active' : 'card'} key={idx}>
-              {idx === cardIdx && (
-                <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
-                  <div onClick={handleClick}>
-                    <KanjiCard
-                      key={k.references.classic_nelson}
-                      char={k.kanji.character} />
-                  </div>
-                  <div onClick={handleClick}>
-                    <KanjiCard
-                      key={k.references.classic_nelson}
-                      meaning={k.kanji.meaning.english} />
-                  </div>
-                </ReactCardFlip>
-              )}
-            </div>
-          )
-        })
-      }
-      <button onClick={goForward}>Forward</button>
+          {kanji
+            .map((k, idx) => {
+              return (
+                <div className={idx === cardIdx ? 'card-active' : 'card'} key={idx}>
+                  {idx === cardIdx && (
+                    <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
+                      <div onClick={handleClick}>
+                        <KanjiCard
+                          key={k.references.classic_nelson}
+                          char={k.kanji.character} />
+                      </div>
+                      <div onClick={handleClick}>
+                        <KanjiCard
+                          key={k.references.classic_nelson}
+                          meaning={k.kanji.meaning.english} />
+                      </div>
+                    </ReactCardFlip>
+                  )}
+                </div>
+              )
+            })
+          }
+          <button onClick={goForward}>Forward</button>
+        </div>}
     </div>
   );
 };

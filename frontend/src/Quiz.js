@@ -23,22 +23,25 @@ function Quiz() {
     return arr[randomKanji];
   };
 
-  const getRandomKanji = () => {
+  const getRandomKanji = (num) => {
     let res = [];
     let test = [];
+
     for (let i = 0; i < 20; i++) {
-      let randomKanji = random(grade);
+      let randomKanji = random(grade.filter(k => k.references.grade === num));
       res.push(randomKanji);
       test.push(randomKanji);
     };
     setKanji(res);
+    //try a loop or forEach
+    //current setup can cause duplicates. Fix this later.
     setQuizApi(test.map(k => {
       let qobj = {};
       qobj["kanji"] = k.kanji.character;
       qobj["answers"] = [
         { text: k.kanji.meaning.english, correct: true },
-        { text: "wrong1", correct: false },
-        { text: "wrong2", correct: false }
+        { text: random(test.map(k => k.kanji.meaning.english)), correct: false },
+        { text: random(test.map(k => k.kanji.meaning.english)), correct: false }
       ];
       qobj["reference"] = k.references.classic_nelson
       return qobj
@@ -59,10 +62,38 @@ function Quiz() {
     }
   };
 
+  const shuffleArray = (array) => {
+    let currentIndex = array.length, temporaryValue, randomIndex;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+  };
+
+  //quiz lacks feedback and reset button
   return (
     <div>
       {kanji === null ?
-        <button onClick={getRandomKanji}>All Random Kanji</button> :
+        <div>
+          <button onClick={() => { getRandomKanji(1) }}>Grade 1</button>
+          <button onClick={() => { getRandomKanji(2) }}>Grade 2</button>
+          <button onClick={() => { getRandomKanji(3) }}>Grade 3</button>
+          <button onClick={() => { getRandomKanji(4) }}>Grade 4</button>
+          <button onClick={() => { getRandomKanji(5) }}>Grade 5</button>
+          <button onClick={() => { getRandomKanji(6) }}>Grade 6</button>
+          <button onClick={() => { getRandomKanji(null) }}>JLPT 2</button>
+        </div> :
         showScore ? (
           <div className='score-section'>
             You scored {score} out of {quizApi.length}
@@ -74,11 +105,10 @@ function Quiz() {
                 <span>Question {currentQuestion + 1}</span>/{quizApi.length}
               </div>
               <div className='question-text'><KanjiCard
-                key={quizApi[currentQuestion].reference}
                 char={quizApi[currentQuestion].kanji} /></div>
             </div>
             <div className='answer-section'>
-              {quizApi[currentQuestion].answers.map((answerOption) => (
+              {shuffleArray(quizApi[currentQuestion].answers).map((answerOption) => (
                 <button onClick={() => handleAnswerOptionClick(answerOption.correct)}>{answerOption.text}</button>
               ))}
             </div>
@@ -92,3 +122,5 @@ export default Quiz;
 
 //code for quiz adapted from 
 //https://www.freecodecamp.org/news/how-to-build-a-quiz-app-using-react/
+//code for shuffle from
+//https://mitchgavan.com/react-quiz/
